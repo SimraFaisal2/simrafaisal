@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simra Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div id="particles-js"></div>
+  <div class="cursor-glow"></div>
+
+  <nav>
+    <div class="nav-brand">
+      <a href="#" class="logo">SIMRA<span class="pink-dot">.</span>DEV</a>
+    </div>
+    
+    <ul class="nav-links">
+      <li><a href="#about">ABOUT</a></li>
+      <li><a href="#skills">SKILLS</a></li>
+      <li><a href="#projects">PROJECTS</a></li>
+      <li><a href="#stats">STATS</a></li>
+      <li><a href="#chatbot">AI</a></li>
+      <li><a href="#contact">CONTACT</a></li>
+    </ul>
+
+    <div class="nav-monogram">
+      <a href="#" class="monogram-logo">S<span class="bold-d">D</span><span class="pink-dot">.</span></a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>HI, I'M <br><span class="hollow-text">SIMRA FAISAL</span></h1>
+    <div class="typing" id="typing"></div>
+    <p>
+      Computer Science student passionate about AI,
+      algorithms, software engineering, and satellite systems.
+    </p>
+    <div class="hero-buttons">
+      <a href="#projects" class="btn primary-btn">VIEW PROJECTS</a>
+      <a href="#" class="btn secondary-btn">DOWNLOAD RESUME</a>
+    </div>
+  </section>
+
+  <section id="about" class="pink-bg">
+    <h2 class="section-title">ABOUT ME</h2>
+    <div class="about-grid">
+      <div class="card dark-card">
+        <h3>CURRENT FOCUS</h3>
+        <p>Learning machine learning, advanced algorithms, dynamic programming, and modern web development.</p>
+      </div>
+      <div class="card dark-card">
+        <h3>HOW I THINK</h3>
+        <p>I enjoy understanding why algorithms work instead of memorizing them.</p>
+      </div>
+      <div class="card dark-card">
+        <h3>FUTURE GOALS</h3>
+        <p>Interested in AI systems and satellite technologies.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2 class="section-title">TECH <span class="hollow-text">SKILLS</span></h2>
+    <div class="skills-container">
+      <div class="skill">PYTHON</div>
+      <div class="skill">C++</div>
+      <div class="skill">JAVASCRIPT</div>
+      <div class="skill">HTML</div>
+      <div class="skill">CSS</div>
+      <div class="skill">MACHINE LEARNING</div>
+      <div class="skill">ALGORITHMS</div>
+      <div class="skill">DYNAMIC PROGRAMMING</div>
+    </div>
+  </section>
+
+  <section id="projects" class="white-bg">
+    <h2 class="section-title dark-title">TYPES OF <span class="hollow-text-dark">PROJECTS</span></h2>
+    <p class="section-subtitle">A quick round-up of the coolest things I've built to get you up-to-speed.</p>
+    
+    <div class="projects-grid">
+      <div class="card light-card">
+        <div class="icon-circle">⚙️</div>
+        <h3>ALGORITHM VISUALIZER</h3>
+        <p>Interactive visualization tool for algorithms.</p>
+      </div>
+      <div class="card light-card">
+        <div class="icon-circle">🤖</div>
+        <h3>AI CHATBOT</h3>
+        <p>AI assistant answering portfolio questions.</p>
+      </div>
+      <div class="card light-card">
+        <div class="icon-circle">🛰️</div>
+        <h3>SATELLITE DASHBOARD</h3>
+        <p>Satellite data visualization platform.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="stats">
+    <h2 class="section-title">STATS <span class="pink-dot">&</span> FIGURES</h2>
+    <div class="stats-container">
+      <div class="stat-card">
+        <h1 class="counter" data-target="15">0</h1>
+        <p>PROJECTS</p>
+      </div>
+      <div class="stat-card">
+        <h1 class="counter" data-target="300">0</h1>
+        <p>PROBLEMS SOLVED</p>
+      </div>
+      <div class="stat-card">
+        <h1 class="counter" data-target="10">0</h1>
+        <p>TECHNOLOGIES</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="chatbot" class="pink-bg">
+    <h2 class="section-title">AI ASSISTANT</h2>
+    <div class="chatbot-container">
+      <div class="chat-header">SIMRA AI ASSISTANT</div>
+      <div class="chat-box" id="chatBox">
+        <div class="bot-message">Hi 👋 Ask me about skills, projects, goals, or experience.</div>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" id="userInput" placeholder="Ask something...">
+        <button onclick="sendMessage()">SEND</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2 class="section-title">BECOME A <span class="hollow-text">COLLABORATOR</span></h2>
+    <p class="contact-text">Let's connect and build something impactful together.</p>
+    <div class="contact-buttons">
+      <a href="https://github.com/SimraFaisal2" target="_blank" rel="noopener noreferrer" class="btn contact-btn">GITHUB</a>
+      <a href="https://linkedin.com/in/SimraFaisal" target="_blank" rel="noopener noreferrer" class="btn contact-btn">LINKEDIN</a>
+      <a href="mailto:simrafaisal1111@gmail.com" class="btn contact-btn">EMAIL</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="#">Legal Docs & FAQs</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Contact Us</a>
+    </div>
+    <p>© Simra Faisal 2026. Powered by Simra Faisal.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
