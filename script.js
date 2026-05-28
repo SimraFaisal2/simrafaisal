@@ -66,8 +66,10 @@ async function sendMessage() {
   chatBox.scrollTop = chatBox.scrollHeight;
 
   try {
-    // 3. Dispatch data down pipeline to port 5050
-    const response = await fetch("http://localhost:5050/api/chat", {
+    // 3. Dispatch data down pipeline directly to your live Vercel Serverless Endpoint
+    const VERCEL_BACKEND_URL = "https://simrafaisal.vercel.app/api/chat";
+    
+    const response = await fetch(VERCEL_BACKEND_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: userText }) 
