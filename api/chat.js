@@ -24,7 +24,9 @@ app.use(cors({
     "http://simrafaisal.me", 
     "https://simrafaisal.me",
     "http://www.simrafaisal.me",
-    "https://www.simrafaisal.me"
+    "https://www.simrafaisal.me",
+    "https://simrafaisal.vercel.app",
+    "http://localhost:5050"
   ],
   methods: ["POST", "GET", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -33,8 +35,13 @@ app.use(cors({
 
 app.use(express.json());
 
-// Handle browser pre-flight requests automatically
-app.options('*', cors());
+// Lightweight pre-flight handling for deployed environments without relying on wildcard route registration.
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204);
+  }
+  next();
+});
 
 // --- CHAT API ENDPOINT ---
 app.post('/api/chat', async (req, res) => {
