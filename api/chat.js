@@ -1,59 +1,92 @@
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
+﻿require('dotenv').config();
 
 let genAI = null;
 try {
   const { GoogleGenAI } = require('@google/genai');
   if (process.env.GEMINI_API_KEY) {
     genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-    console.log("✅ Gemini AI instance initialized successfully.");
+    console.log('✅ Gemini AI instance initialized successfully.');
   } else {
-    console.warn("⚠️ Warning: GEMINI_API_KEY is missing from environment variables.");
+    console.warn('⚠️ Warning: GEMINI_API_KEY is missing from environment variables.');
   }
 } catch (e) {
   console.error("❌ Failed to load '@google/genai'. Run: npm install @google/genai");
 }
 
-const app = express();
+const allowedOrigins = new Set([
+  'http://simrafaisal.me',
+  'https://simrafaisal.me',
+  'http://www.simrafaisal.me',
+  'https://www.simrafaisal.me',
+  'https://simrafaisal.vercel.app',
+  'http://localhost:5050',
+  'http://127.0.0.1:5050'
+]);
 
-// --- STRICT SECURITY CONFIGURATION (CORS) ---
-// This tells Vercel it is completely safe to accept requests from your portfolio domain
-app.use(cors({
-  origin: [
-    "http://simrafaisal.me", 
-    "https://simrafaisal.me",
-    "http://www.simrafaisal.me",
-    "https://www.simrafaisal.me",
-    "https://simrafaisal.vercel.app",
-    "http://localhost:5050"
-  ],
-  methods: ["POST", "GET", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
-}));
+function readJsonBody(req) {
+  return new Promise((resolve, reject) => {
+    let raw = '';
 
-app.use(express.json());
+    req.on('data', chunk => {
+      raw += chunk;
+    });
 
-// Lightweight pre-flight handling for deployed environments without relying on wildcard route registration.
-app.use((req, res, next) => {
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(204);
+    req.on('end', () => {
+      if (!raw) return resolve({});
+
+      try {
+        resolve(JSON.parse(raw));
+      } catch (error) {
+        reject(new Error('Malformed JSON payload'));
+      }
+    });
+
+    req.on('error', reject);
+  });
+}
+
+function sendJson(res, statusCode, payload) {
+  res.statusCode = statusCode;
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify(payload));
+}
+
+function endResponse(res, statusCode) {
+  res.statusCode = statusCode;
+  res.end();
+}
+
+async function handler(req, res) {
+  const origin = req.headers.origin;
+
+  if (origin && allowedOrigins.has(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  } else if (!origin) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
   }
-  next();
-});
 
-// --- CHAT API ENDPOINT ---
-app.post('/api/chat', async (req, res) => {
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  if (req.method === 'OPTIONS') {
+    return endResponse(res, 204);
+  }
+
+  if (req.method !== 'POST') {
+    return sendJson(res, 405, { error: 'Method not allowed.' });
+  }
+
   try {
-    const { message } = req.body;
-    if (!message) {
-      return res.status(400).json({ error: "Empty prompt context string found." });
+    const body = await readJsonBody(req);
+    const { message } = body;
+
+    if (!message || typeof message !== 'string' || !message.trim()) {
+      return sendJson(res, 400, { error: 'Empty prompt context string found.' });
     }
 
     if (!genAI || !process.env.GEMINI_API_KEY) {
-      return res.status(500).json({
-        error: "AI configurations are missing on the backend. Check your Vercel Environment Variables."
+      return sendJson(res, 500, {
+        error: 'AI configurations are missing on the backend. Check your Vercel Environment Variables.'
       });
     }
 
@@ -96,27 +129,26 @@ CORE TECHNICAL SKILLS:
 
 FORMATTING RULES:
 - Always format list items, features, skills, projects, or credentials as bullet points starting with a single asterisk character followed by a space (e.g., "* **Item Name:** Details").
-- Use markdown bolding (**keyword**) for structural parameter headers.`
+- Use markdown bolding (**keyword**) for structural parameter headers.
+      `
       }
     });
 
-    res.json({ reply: response.text });
-
+    return sendJson(res, 200, { reply: response.text });
   } catch (error) {
-    console.error("====== NATIVE GOOGLE API DIAGNOSTIC LOG ======");
+    console.error('====== NATIVE GOOGLE API DIAGNOSTIC LOG ======');
     console.error(error);
-    console.error("===============================================");
+    console.error('===============================================');
 
-    const errorMessage = error?.message || "";
+    const errorMessage = error?.message || '';
     const apiKeyProblem = /API key|PERMISSION_DENIED|403|leaked/i.test(errorMessage) || error?.status === 403;
 
-    return res.status(apiKeyProblem ? 403 : 500).json({ 
-      error: apiKeyProblem 
-        ? "Google API key rejected. Check your Vercel Environment variables configuration." 
-        : "Internal API gateway validation fault caught." 
+    return sendJson(res, apiKeyProblem ? 403 : 500, {
+      error: apiKeyProblem
+        ? 'Google API key rejected. Check your Vercel Environment variables configuration.'
+        : 'Internal API gateway validation fault caught.'
     });
   }
-});
+}
 
-// EXPORT FOR VERCEL RUNTIME ENGINE
-module.exports = app;
+module.exports = handler;
