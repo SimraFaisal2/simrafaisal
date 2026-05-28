@@ -8,17 +8,18 @@ try {
   const { GoogleGenAI } = require('@google/genai');
   if (process.env.GEMINI_API_KEY) {
     genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    console.log("✅ Gemini AI instance initialized successfully.");
   } else {
-    console.warn("⚠️ Warning: GEMINI_API_KEY is not set in .env. AI features are disabled until the key is added.");
+    console.warn("⚠️ Warning: GEMINI_API_KEY is missing from your .env file.");
   }
 } catch (e) {
-  console.warn("⚠️ Warning: '@google/genai' is not installed or failed to initialize. AI features will be disabled until the SDK is installed and configured.");
+  console.error("❌ Failed to load '@google/genai'. Run: npm install @google/genai");
 }
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname))
+app.use(express.static(__dirname));
 
 // --- CHAT API ENDPOINT ---
 app.post('/api/chat', async (req, res) => {
@@ -29,15 +30,15 @@ app.post('/api/chat', async (req, res) => {
     }
 
     if (!genAI || !process.env.GEMINI_API_KEY) {
-      return res.json({
-        reply: "Simra AI is online but not configured for live model access. Please set GEMINI_API_KEY and install @google/genai."
+      return res.status(500).json({
+        error: "AI configurations are missing on the backend. Check your .env file."
       });
     }
 
-    // Direct inline configuration configuration prevents underlying API context caching issues
+    // Fixed contents packaging structure to strictly match the modern @google/genai SDK format
     const response = await genAI.models.generateContent({
       model: 'gemini-2.5-flash',
-      contents: message.trim(),
+      contents: [{ role: 'user', parts: [{ text: message.trim() }] }],
       config: {
         systemInstruction: `You are Simra AI, the official intelligent portfolio assistant for Simra Faisal. 
 You must maintain an articulate, technically precise, and highly professional tone.
@@ -75,14 +76,25 @@ CORE TECHNICAL SKILLS:
 FORMATTING RULES:
 - Always format list items, features, skills, projects, or credentials as bullet points starting with a single asterisk character followed by a space (e.g., "* **Item Name:** Details").
 - Use markdown bolding (**keyword**) for structural parameter headers.`
-      },
+      }
     });
 
     res.json({ reply: response.text });
 
   } catch (error) {
-    console.error("Native Google API Error:", error.message);
-    res.status(500).json({ error: "Internal AI connection drop caught." });
+    // If Google rejects anything, this prints the exact systemic error message in your terminal
+    console.error("====== NATIVE GOOGLE API DIAGNOSTIC LOG ======");
+    console.error(error);
+    console.error("===============================================");
+
+    const errorMessage = error?.message || "";
+    const apiKeyProblem = /API key|PERMISSION_DENIED|403|leaked/i.test(errorMessage) || error?.status === 403;
+
+    return res.status(apiKeyProblem ? 403 : 500).json({ 
+      error: apiKeyProblem 
+        ? "Google API key rejected. Check your .env file format." 
+        : "Internal API gateway validation fault caught." 
+    });
   }
 });
 

@@ -25,7 +25,8 @@ function typeEffect() {
     typingIndex = 0;
   }
   currentText = textArray[typingIndex];
-  currentChar = currentText.slice(0, ++charIndex);
+  charIndex++;
+  currentChar = currentText.slice(0, charIndex);
   const typingElement = document.getElementById("typing");
   if (typingElement) typingElement.textContent = currentChar;
 
@@ -72,40 +73,36 @@ async function sendMessage() {
       body: JSON.stringify({ message: userText }) 
     });
 
+    const data = await response.json().catch(() => null);
+
     if (!response.ok) {
-      throw new Error(`Server status fault code: ${response.status}`);
+      throw new Error(data?.error || `Server status fault code: ${response.status}`);
     }
 
-    const data = await response.json();
     botMessage.textContent = ""; // Clear loader text
 
-    const aiReply = data.reply || data.text;
+    const aiReply = data?.reply || data?.text;
 
     if (aiReply) {
-      // 4. Smooth HTML-aware character playback simulation loop
-      let i = 0;
-      let currentBuiltHTML = "";
-      
-      function typeBot() {
-        if (i < aiReply.length) {
-          currentBuiltHTML += aiReply.charAt(i);
-          
-          // Phase A: Parse Markdown bold structures first (**text** -> <strong>)
-          let formattedHTML = currentBuiltHTML.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-          
-          // Phase B: Transform structural bullet indicators into true bullet items
-          // This strips away raw literal asterisks (* content) or hyphens (- content) cleanly
-          formattedHTML = formattedHTML.replace(/^\s*[\*\-]\s+(.*)$/gm, "<li style='margin-left: 15px; list-style-type: disc; padding-bottom: 4px;'>$1</li>");
-          
-          // Phase C: Map generic text breaks into true line break elements
-          formattedHTML = formattedHTML.replace(/\n/g, "<br>");
+      // PRE-PROCESS MARKDOWN: Apply transformations cleanly to the whole string first
+      let fullParsedHTML = aiReply
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") 
+        .replace(/^\s*[\*\-]\s+(.*)$/gm, "<li style='margin-left: 15px; list-style-type: disc; padding-bottom: 4px;'>$1</li>") 
+        .replace(/\n/g, "<br>"); 
 
-          // Phase D: Commit clean parsed buffer markup down to the view layer
-          botMessage.innerHTML = formattedHTML;
-          
+      // 4. Smooth HTML-aware playback simulation loop using an array of tokens/tags
+      let i = 0;
+      let currentOutput = "";
+      
+      const tokens = fullParsedHTML.match(/<[^>]+>|[^<]/g) || [];
+
+      function typeBot() {
+        if (i < tokens.length) {
+          currentOutput += tokens[i];
+          botMessage.innerHTML = currentOutput;
           i++;
-          setTimeout(typeBot, 5);
           chatBox.scrollTop = chatBox.scrollHeight;
+          setTimeout(typeBot, 8); 
         }
       }
       typeBot();
@@ -114,8 +111,7 @@ async function sendMessage() {
     }
   } catch (error) {
     console.error("Fetch Execution Fault:", error);
-    const errorMessage = error && error.message ? error.message : "network error";
-    botMessage.textContent = `Server unreachable on port 5050: ${errorMessage}. Start server.js and refresh.`;
+    botMessage.textContent = error?.message || "Network execution error connecting to backend API.";
   }
 }
 
