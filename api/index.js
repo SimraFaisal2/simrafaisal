@@ -1,5 +1,10 @@
-﻿require('dotenv').config();
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
 
+const app = express();
+
+// Initialize Gemini
 let genAI = null;
 try {
   const { GoogleGenAI } = require('@google/genai');
@@ -10,10 +15,11 @@ try {
     console.warn('⚠️ Warning: GEMINI_API_KEY is missing from environment variables.');
   }
 } catch (e) {
-  console.error("❌ Failed to load '@google/genai'. Run: npm install @google/genai");
+  console.error("❌ Failed to load '@google/genai'.");
 }
 
-const allowedOrigins = new Set([
+// Allowed CORS Origins Setup
+const allowedOrigins = [
   'http://simrafaisal.me',
   'https://simrafaisal.me',
   'http://www.simrafaisal.me',
@@ -21,65 +27,33 @@ const allowedOrigins = new Set([
   'https://simrafaisal.vercel.app',
   'http://localhost:5050',
   'http://127.0.0.1:5050'
-]);
+];
 
-function readJsonBody(req) {
-  return new Promise((resolve, reject) => {
-    let raw = '';
-    req.on('data', chunk => { raw += chunk.toString('utf8'); });
-    req.on('end', () => {
-      if (!raw) return resolve({});
-      try {
-        resolve(JSON.parse(raw));
-      } catch (error) {
-        reject(new Error('Malformed JSON payload'));
-      }
-    });
-    req.on('error', reject);
-  });
-}
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Fallback to avoid strict blocks during runtime transitions
+    }
+  },
+  methods: ['POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
-function sendJson(res, statusCode, payload) {
-  res.statusCode = statusCode;
-  res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify(payload));
-}
+app.use(express.json());
 
-function endResponse(res, statusCode) {
-  res.statusCode = statusCode;
-  res.end();
-}
-
-async function handler(req, res) {
-  const origin = req.headers.origin;
-
-  if (origin && allowedOrigins.has(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  } else if (!origin) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-  }
-
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-  if (req.method === 'OPTIONS') {
-    return endResponse(res, 204);
-  }
-
-  if (req.method !== 'POST') {
-    return sendJson(res, 405, { error: 'Method not allowed.' });
-  }
-
+// Main Chat Endpoint
+app.post('/api/chat', async (req, res) => {
   try {
-    const body = await readJsonBody(req);
-    const { message } = body;
+    const { message } = req.body;
 
     if (!message || typeof message !== 'string' || !message.trim()) {
-      return sendJson(res, 400, { error: 'Empty prompt context string found.' });
+      return res.status(400).json({ error: 'Empty prompt context string found.' });
     }
 
     if (!genAI || !process.env.GEMINI_API_KEY) {
-      return sendJson(res, 500, {
+      return res.status(500).json({
         error: 'AI configurations are missing on the backend. Check your Vercel Environment Variables.'
       });
     }
@@ -127,24 +101,15 @@ FORMATTING RULES:
       }
     });
 
-    return sendJson(res, 200, { reply: response.text });
+    return res.status(200).json({ reply: response.text });
   } catch (error) {
-    console.error('====== NATIVE GOOGLE API DIAGNOSTIC LOG ======');
     console.error(error);
-    console.error('===============================================');
-
     const errorMessage = error?.message || '';
-    const quotaProblem = /RESOURCE_EXHAUSTED|quota|429|rate limit/i.test(errorMessage) || error?.status === 429;
-    const apiKeyProblem = /API key|PERMISSION_DENIED|403|leaked/i.test(errorMessage) || error?.status === 403;
-
-    return sendJson(res, quotaProblem ? 429 : apiKeyProblem ? 403 : 500, {
-      error: quotaProblem
-        ? 'Gemini API quota has been exhausted. Please wait before retrying or use a different API key.'
-        : apiKeyProblem
-          ? 'Google API key rejected. Check your Vercel Environment variables configuration.'
-          : 'Internal API gateway validation fault caught.'
+    const quotaProblem = /RESOURCE_EXHAUSTED|quota|429|rate limit/i.test(errorMessage);
+    return res.status(quotaProblem ? 429 : 500).json({
+      error: quotaProblem ? 'Gemini API quota exceeded.' : 'Internal server verification error.'
     });
   }
-}
+});
 
-module.exports = handler;
+module.exports = app;

@@ -1,3 +1,7 @@
+// ==========================================
+// 1. VISUAL EFFECTS (CURSOR & TYPING)
+// ==========================================
+
 // CURSOR GLOW
 const glow = document.querySelector(".cursor-glow");
 if (glow) {
@@ -7,7 +11,7 @@ if (glow) {
   });
 }
 
-// TYPING EFFECT
+// TYPING EFFECT FOR HERO SECTION
 const textArray = [
   "Computer Science Student",
   "AI Enthusiast",
@@ -38,9 +42,17 @@ function typeEffect() {
     setTimeout(typeEffect, 100);
   }
 }
-typeEffect();
 
-// ASYNC LIVE CHATBOT CONNECTION ENGINE
+// Initialize typing effect on load
+document.addEventListener("DOMContentLoaded", () => {
+  typeEffect();
+});
+
+
+// ==========================================
+// 2. LIVE CHATBOT ENGINE
+// ==========================================
+
 async function sendMessage() {
   const input = document.getElementById("userInput");
   const chatBox = document.getElementById("chatBox");
@@ -49,7 +61,7 @@ async function sendMessage() {
   const userText = input.value.trim();
   if (userText === "") return;
 
-  // 1. Mount User Message Bubble
+  // Step A: Render User Message Bubble
   const userMessage = document.createElement("div");
   userMessage.classList.add("user-message");
   userMessage.textContent = userText;
@@ -58,7 +70,7 @@ async function sendMessage() {
   input.value = "";
   chatBox.scrollTop = chatBox.scrollHeight;
 
-  // 2. Mount Thinking Status Loader Bubble
+  // Step B: Render Processing Status Bubble
   const botMessage = document.createElement("div");
   botMessage.classList.add("bot-message");
   botMessage.textContent = "Processing tokens... 🤖";
@@ -66,12 +78,14 @@ async function sendMessage() {
   chatBox.scrollTop = chatBox.scrollHeight;
 
   try {
-    // 3. Dispatch data down pipeline to the same origin API endpoint so deployments and local previews both work.
+    // Matches the rewritten rule endpoint in your vercel.json
     const VERCEL_BACKEND_URL = "/api/chat";
     
     const response = await fetch(VERCEL_BACKEND_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json" 
+      },
       body: JSON.stringify({ message: userText }) 
     });
 
@@ -81,21 +95,20 @@ async function sendMessage() {
       throw new Error(data?.error || `Server status fault code: ${response.status}`);
     }
 
-    botMessage.textContent = ""; // Clear loader text
+    botMessage.textContent = ""; // Reset loader string text
 
     const aiReply = data?.reply || data?.text;
 
     if (aiReply) {
-      // PRE-PROCESS MARKDOWN: Apply transformations cleanly to the whole string first
+      // Cleanly parse markdown bolding, list bullet points, and breaks
       let fullParsedHTML = aiReply
         .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") 
         .replace(/^\s*[\*\-]\s+(.*)$/gm, "<li style='margin-left: 15px; list-style-type: disc; padding-bottom: 4px;'>$1</li>") 
         .replace(/\n/g, "<br>"); 
 
-      // 4. Smooth HTML-aware playback simulation loop using an array of tokens/tags
+      // Stream playback rendering simulation loop
       let i = 0;
       let currentOutput = "";
-      
       const tokens = fullParsedHTML.match(/<[^>]+>|[^<]/g) || [];
 
       function typeBot() {
@@ -117,7 +130,7 @@ async function sendMessage() {
   }
 }
 
-// ENTER KEY BINDING
+// ENTER KEY TRIGGER BINDING
 const userInputField = document.getElementById("userInput");
 if (userInputField) {
   userInputField.addEventListener("keypress", function (event) {
@@ -127,7 +140,10 @@ if (userInputField) {
   });
 }
 
-// COUNTERS
+
+// ==========================================
+// 3. COUNTERS ANIMATION
+// ==========================================
 const counters = document.querySelectorAll(".counter");
 counters.forEach(counter => {
   counter.innerText = "0";
@@ -145,7 +161,12 @@ counters.forEach(counter => {
   updateCounter();
 });
 
-// DARK MODE
+
+// ==========================================
+// 4. THEME CONTROL & BACKGROUND PARTICLES
+// ==========================================
+
+// DARK / LIGHT MODE SWITCH
 const themeToggle = document.getElementById("themeToggle");
 if (themeToggle) {
   themeToggle.addEventListener("click", () => {
@@ -153,7 +174,7 @@ if (themeToggle) {
   });
 }
 
-// PARTICLES
+// TSPARTICLES SYSTEM INITIALIZATION
 if (typeof tsParticles !== 'undefined') {
   tsParticles.load("particles-js", {
     particles: {
