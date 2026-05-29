@@ -1,8 +1,8 @@
 ﻿require('dotenv').config();
+const { GoogleGenAI } = require('@google/genai');
 
 let genAI = null;
 try {
-  const { GoogleGenAI } = require('@google/genai');
   if (process.env.GEMINI_API_KEY) {
     genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     console.log('✅ Gemini AI instance initialized successfully.');
@@ -23,7 +23,13 @@ const allowedOrigins = new Set([
   'http://127.0.0.1:5050'
 ]);
 
-function readJsonBody(req) {
+function sendJson(res, statusCode, payload) {
+  res.statusCode = statusCode;
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify(payload));
+}
+
+function parseJsonBody(req) {
   return new Promise((resolve, reject) => {
     let raw = '';
     req.on('data', chunk => { raw += chunk.toString('utf8'); });
@@ -39,31 +45,22 @@ function readJsonBody(req) {
   });
 }
 
-function sendJson(res, statusCode, payload) {
-  res.statusCode = statusCode;
-  res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify(payload));
-}
-
-function endResponse(res, statusCode) {
-  res.statusCode = statusCode;
-  res.end();
-}
-
-async function handler(req, res) {
-  const origin = req.headers.origin;
-
+function setCorsHeaders(res, origin) {
   if (origin && allowedOrigins.has(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
-  } else if (!origin) {
+  } else {
     res.setHeader('Access-Control-Allow-Origin', '*');
   }
-
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+}
+
+module.exports = async (req, res) => {
+  setCorsHeaders(res, req.headers.origin);
 
   if (req.method === 'OPTIONS') {
-    return endResponse(res, 204);
+    res.statusCode = 204;
+    return res.end();
   }
 
   if (req.method !== 'POST') {
@@ -71,7 +68,7 @@ async function handler(req, res) {
   }
 
   try {
-    const body = await readJsonBody(req);
+    const body = await parseJsonBody(req);
     const { message } = body;
 
     if (!message || typeof message !== 'string' || !message.trim()) {
@@ -114,7 +111,7 @@ PROFESSIONAL CERTIFICATIONS:
 
 PROJECTS DEVELOPMENT HISTORY:
 * Scholarship Matcher AI Agent (Sept 2025 – Present) | Tech Stack: LangGraph, Gemini 3 Pro, Tavily, Supabase: Architected a multi-agent "Research & Match" system that automates discovery of fully-funded scholarships, reducing manual search time by over 90%. Developed an autonomous "Deep Research" node using Gemini 3 Pro and Tavily API to scrape real-time university portal eligibility data globally. Engineered a "Merit-Scoring" engine that performs semantic analysis on student CVs to calculate weighted success probability against 50+ scholarship criteria. Integrated persistent state management via LangGraph and Supabase to run automated background deadline alert tasks.
-* AI-Powered Resume Analyzer (Jan 2025 – Feb 2025) | Tech Stack: React, React Router, Puter.js: Architected an end-to-end recruitment web application enabling the creation of job listings and batch uploading of candidate resumes. Integrated Puter.js to deploy an automated AI evaluation engine that parses candidate profiles and dynamically scores technical alignment with job requirements. Delivering instant data-driven compatibility insights, reducing manual review latency.
+* AI-Powered Resume Analyzer (Jan 2025 – Feb 2025) | Tech Stack: React, React Router, Puter.js: Architected an end-to-end recruitment web application enabling the creation of job listings and batch uploading of candidate resumes. Integrated Puter.js to deploy an automated AI evaluation engine that parses candidate profiles and dynamically scores technical alignment with candidate profiles and dynamically scores technical alignment with candidate profiles. Delivering instant data-driven compatibility insights, reducing manual review latency.
 
 CORE TECHNICAL SKILLS:
 * Programming Languages: Python, R, C++, SQL, JavaScript, TypeScript
@@ -134,17 +131,11 @@ FORMATTING RULES:
     console.error('===============================================');
 
     const errorMessage = error?.message || '';
-    const quotaProblem = /RESOURCE_EXHAUSTED|quota|429|rate limit/i.test(errorMessage) || error?.status === 429;
-    const apiKeyProblem = /API key|PERMISSION_DENIED|403|leaked/i.test(errorMessage) || error?.status === 403;
+    const quotaProblem = /RESOURCE_EXHAUSTED|quota|429|rate limit/i.test(errorMessage);
+    const apiKeyProblem = /API key|PERMISSION_DENIED|403|leaked/i.test(errorMessage);
 
     return sendJson(res, quotaProblem ? 429 : apiKeyProblem ? 403 : 500, {
-      error: quotaProblem
-        ? 'Gemini API quota has been exhausted. Please wait before retrying or use a different API key.'
-        : apiKeyProblem
-          ? 'Google API key rejected. Check your Vercel Environment variables configuration.'
-          : 'Internal API gateway validation fault caught.'
+      error: quotaProblem ? 'Gemini API quota exceeded.' : apiKeyProblem ? 'Google API key rejected. Check your Vercel Environment Variables configuration.' : 'Internal API gateway validation fault caught.'
     });
   }
-}
-
-module.exports = handler;
+};
