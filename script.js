@@ -78,10 +78,10 @@ async function sendMessage() {
   chatBox.scrollTop = chatBox.scrollHeight;
 
   try {
-    // Matches the rewritten rule endpoint in your vercel.json
-    const VERCEL_BACKEND_URL = "/api/chat";
-    
-    const response = await fetch(VERCEL_BACKEND_URL, {
+    const isLocalDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+    const backendUrl = isLocalDev ? 'http://localhost:5050/api/chat' : '/api/chat';
+
+    const response = await fetch(backendUrl, {
       method: "POST",
       headers: { 
         "Content-Type": "application/json" 
@@ -126,7 +126,8 @@ async function sendMessage() {
     }
   } catch (error) {
     console.error("Fetch Execution Fault:", error);
-    botMessage.textContent = error?.message || "Network execution error connecting to backend API.";
+    const message = error?.message || "Unable to reach the AI backend. Start the local server with 'npm start' and open the site via http://localhost:5050.";
+    botMessage.textContent = message;
   }
 }
 
