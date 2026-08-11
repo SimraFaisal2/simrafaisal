@@ -1,58 +1,120 @@
-// ==========================================
-// 1. VISUAL EFFECTS (CURSOR & TYPING)
-// ==========================================
+// ============================================================
+// 1. HERO TYPING EFFECT (rotating roles)
+// ============================================================
+const textArray = [
+  "Applied CS & AI @ Sapienza",
+  "AI engineer in training",
+  "Builder of assistive tech",
+  "Problem solver at heart",
+  "Future satellite-systems nerd"
+];
 
-// CURSOR GLOW
-const glow = document.querySelector(".cursor-glow");
-if (glow) {
-  document.addEventListener("mousemove", (e) => {
-    glow.style.left = e.clientX + "px";
-    glow.style.top = e.clientY + "px";
+let typingIndex = 0;
+let charIndex = 0;
+let deleting = false;
+const typingEl = document.getElementById("typing");
+
+function typeEffect() {
+  if (!typingEl) return;
+  const currentText = textArray[typingIndex];
+
+  if (!deleting) {
+    charIndex++;
+    typingEl.textContent = currentText.slice(0, charIndex);
+    if (charIndex === currentText.length) {
+      deleting = true;
+      setTimeout(typeEffect, 1800);
+      return;
+    }
+    setTimeout(typeEffect, 70);
+  } else {
+    charIndex--;
+    typingEl.textContent = currentText.slice(0, charIndex);
+    if (charIndex === 0) {
+      deleting = false;
+      typingIndex = (typingIndex + 1) % textArray.length;
+      setTimeout(typeEffect, 400);
+      return;
+    }
+    setTimeout(typeEffect, 35);
+  }
+}
+
+// ============================================================
+// 2. MOBILE NAV TOGGLE
+// ============================================================
+const navToggle = document.getElementById("navToggle");
+const navLinks = document.getElementById("navLinks");
+
+if (navToggle && navLinks) {
+  navToggle.addEventListener("click", () => {
+    const open = navLinks.classList.toggle("open");
+    navToggle.classList.toggle("open", open);
+    navToggle.setAttribute("aria-expanded", String(open));
+  });
+
+  // Close the drawer when a link is clicked
+  navLinks.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+      navToggle.classList.remove("open");
+      navToggle.setAttribute("aria-expanded", "false");
+    });
   });
 }
 
-// TYPING EFFECT FOR HERO SECTION
-const textArray = [
-  "Computer Science Student",
-  "AI Enthusiast",
-  "Problem Solver",
-  "Future Software Engineer",
-  "Tech Explorer"
-];
-let typingIndex = 0;
-let charIndex = 0;
-let currentText = "";
-let currentChar = "";
+// ============================================================
+// 3. SCROLLSPY — highlight the section you're viewing
+// ============================================================
+const sectionIds = ["intro", "about", "experience", "projects", "ai", "contact"];
 
-function typeEffect() {
-  if (typingIndex >= textArray.length) {
-    typingIndex = 0;
-  }
-  currentText = textArray[typingIndex];
-  charIndex++;
-  currentChar = currentText.slice(0, charIndex);
-  const typingElement = document.getElementById("typing");
-  if (typingElement) typingElement.textContent = currentChar;
-
-  if (currentChar.length === currentText.length) {
-    typingIndex++;
-    charIndex = 0;
-    setTimeout(typeEffect, 1500);
-  } else {
-    setTimeout(typeEffect, 100);
-  }
+function setActiveLink(id) {
+  document.querySelectorAll(".nav-links > a, .sidebar-nav a").forEach((a) => {
+    a.classList.toggle("active", a.getAttribute("href") === "#" + id);
+  });
 }
 
-// Initialize typing effect on load
-document.addEventListener("DOMContentLoaded", () => {
-  typeEffect();
-});
+function onScroll() {
+  const scrollPos = window.scrollY + 120;
+  let current = "intro";
+  for (const id of sectionIds) {
+    const el = document.getElementById(id);
+    if (el && el.offsetTop <= scrollPos) current = id;
+  }
+  setActiveLink(current);
+}
 
+// ============================================================
+// 4. FADE-IN ON SCROLL
+// ============================================================
+function setupFadeIns() {
+  const targets = document.querySelectorAll(
+    "#about, #experience, #projects, #ai, #contact, .project-card, .experience-item"
+  );
+  targets.forEach((t) => t.classList.add("fade-in"));
 
-// ==========================================
-// 2. LIVE CHATBOT ENGINE
-// ==========================================
+  if (!("IntersectionObserver" in window)) {
+    targets.forEach((t) => t.classList.add("visible"));
+    return;
+  }
 
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.08 }
+  );
+  targets.forEach((t) => observer.observe(t));
+}
+
+// ============================================================
+// 5. LIVE CHATBOT ENGINE (Gemini via /api/chat)
+// ============================================================
 async function sendMessage() {
   const input = document.getElementById("userInput");
   const chatBox = document.getElementById("chatBox");
@@ -61,7 +123,7 @@ async function sendMessage() {
   const userText = input.value.trim();
   if (userText === "") return;
 
-  // Step A: Render User Message Bubble
+  // Render the user's message
   const userMessage = document.createElement("div");
   userMessage.classList.add("user-message");
   userMessage.textContent = userText;
@@ -70,7 +132,7 @@ async function sendMessage() {
   input.value = "";
   chatBox.scrollTop = chatBox.scrollHeight;
 
-  // Step B: Render Processing Status Bubble
+  // Render the "thinking" bubble
   const botMessage = document.createElement("div");
   botMessage.classList.add("bot-message");
   botMessage.textContent = "Processing tokens... 🤖";
@@ -78,110 +140,68 @@ async function sendMessage() {
   chatBox.scrollTop = chatBox.scrollHeight;
 
   try {
-    // Matches the rewritten rule endpoint in your vercel.json
-    const VERCEL_BACKEND_URL = "/api/chat";
-    
-    const response = await fetch(VERCEL_BACKEND_URL, {
+    const response = await fetch("/api/chat", {
       method: "POST",
-      headers: { 
-        "Content-Type": "application/json" 
-      },
-      body: JSON.stringify({ message: userText }) 
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userText })
     });
 
     const data = await response.json().catch(() => null);
 
     if (!response.ok) {
-      throw new Error(data?.error || `Server status fault code: ${response.status}`);
+      throw new Error(data?.error || `Server error: ${response.status}`);
     }
-
-    botMessage.textContent = ""; // Reset loader string text
 
     const aiReply = data?.reply || data?.text;
-
-    if (aiReply) {
-      // Cleanly parse markdown bolding, list bullet points, and breaks
-      let fullParsedHTML = aiReply
-        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") 
-        .replace(/^\s*[\*\-]\s+(.*)$/gm, "<li style='margin-left: 15px; list-style-type: disc; padding-bottom: 4px;'>$1</li>") 
-        .replace(/\n/g, "<br>"); 
-
-      // Stream playback rendering simulation loop
-      let i = 0;
-      let currentOutput = "";
-      const tokens = fullParsedHTML.match(/<[^>]+>|[^<]/g) || [];
-
-      function typeBot() {
-        if (i < tokens.length) {
-          currentOutput += tokens[i];
-          botMessage.innerHTML = currentOutput;
-          i++;
-          chatBox.scrollTop = chatBox.scrollHeight;
-          setTimeout(typeBot, 8); 
-        }
-      }
-      typeBot();
-    } else {
-      botMessage.textContent = "Error: Invalid processing state returned from model backend.";
+    if (!aiReply) {
+      botMessage.textContent = "Error: no reply returned from the model backend.";
+      return;
     }
+
+    // Light markdown: bold, bullets, line breaks
+    const fullParsedHTML = aiReply
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/^\s*[\*\-]\s+(.*)$/gm, "<li style='margin-left: 18px; padding-bottom: 4px;'>$1</li>")
+      .replace(/\n/g, "<br>");
+
+    // Stream the reply in, token by token
+    botMessage.textContent = "";
+    const tokens = fullParsedHTML.match(/<[^>]+>|[^<]/g) || [];
+    let i = 0;
+    let currentOutput = "";
+
+    function typeBot() {
+      if (i < tokens.length) {
+        currentOutput += tokens[i];
+        botMessage.innerHTML = currentOutput;
+        i++;
+        chatBox.scrollTop = chatBox.scrollHeight;
+        setTimeout(typeBot, 8);
+      }
+    }
+    typeBot();
   } catch (error) {
-    console.error("Fetch Execution Fault:", error);
-    botMessage.textContent = error?.message || "Network execution error connecting to backend API.";
+    console.error("Chat error:", error);
+    botMessage.textContent = error?.message || "Network error connecting to the backend API.";
   }
 }
 
-// ENTER KEY TRIGGER BINDING
+// Enter key sends the message
 const userInputField = document.getElementById("userInput");
 if (userInputField) {
-  userInputField.addEventListener("keypress", function (event) {
+  userInputField.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
       sendMessage();
     }
   });
 }
 
-
-// ==========================================
-// 3. COUNTERS ANIMATION
-// ==========================================
-const counters = document.querySelectorAll(".counter");
-counters.forEach(counter => {
-  counter.innerText = "0";
-  const updateCounter = () => {
-    const target = +counter.getAttribute("data-target");
-    const current = +counter.innerText;
-    const increment = target / 100;
-    if (current < target) {
-      counter.innerText = `${Math.ceil(current + increment)}`;
-      setTimeout(updateCounter, 20);
-    } else {
-      counter.innerText = target;
-    }
-  };
-  updateCounter();
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener("DOMContentLoaded", () => {
+  typeEffect();
+  setupFadeIns();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
 });
-
-
-// ==========================================
-// 4. THEME CONTROL & BACKGROUND PARTICLES
-// ==========================================
-
-// DARK / LIGHT MODE SWITCH
-const themeToggle = document.getElementById("themeToggle");
-if (themeToggle) {
-  themeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("light-mode");
-  });
-}
-
-// TSPARTICLES SYSTEM INITIALIZATION
-if (typeof tsParticles !== 'undefined') {
-  tsParticles.load("particles-js", {
-    particles: {
-      number: { value: 50 },
-      color: { value: "#38bdf8" },
-      links: { enable: true, color: "#38bdf8" },
-      move: { enable: true, speed: 2 }
-    }
-  });
-}
