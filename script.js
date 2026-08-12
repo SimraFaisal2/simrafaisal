@@ -66,7 +66,7 @@ if (navToggle && navLinks) {
 // ============================================================
 // 3. SCROLLSPY — highlight the section you're viewing
 // ============================================================
-const sectionIds = ["intro", "about", "experience", "focus", "projects", "ai", "contact"];
+const sectionIds = ["intro", "about", "experience", "certs", "focus", "projects", "ai", "contact"];
 
 function setActiveLink(id) {
   document.querySelectorAll(".nav-links > a, .sidebar-nav a").forEach((a) => {
@@ -89,7 +89,7 @@ function onScroll() {
 // ============================================================
 function setupFadeIns() {
   const targets = document.querySelectorAll(
-    "#about, #experience, #focus, #projects, #ai, #contact, .project-card, .experience-item, .timeline-item, .focus-card"
+    "#about, #experience, #certs, #focus, #projects, #ai, #contact, .project-card, .experience-item, .timeline-item, .focus-card, .cert-card"
   );
   targets.forEach((t) => t.classList.add("fade-in"));
 

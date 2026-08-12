@@ -1633,3 +1633,81 @@ footer p {
     animation: none;
   }
 }
+
+/* ============================================================
+   CERTIFICATIONS — separate section with credential cards
+   ============================================================ */
+.certs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.cert-card {
+  background: var(--light-navy);
+  border: 1px solid var(--lightest-navy);
+  border-radius: 8px;
+  padding: 26px 24px;
+  transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.cert-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--green-bright);
+}
+
+.cert-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.cert-icon {
+  color: var(--green-bright);
+  font-size: 16px;
+}
+
+.cert-issuer {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--light-slate);
+  letter-spacing: 0.04em;
+}
+
+.cert-title {
+  color: var(--lightest-slate);
+  font-size: 19px;
+  line-height: 1.35;
+  margin-bottom: 14px;
+}
+
+.cert-focus {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cert-focus li {
+  color: var(--slate);
+  font-size: 14px;
+  line-height: 1.5;
+  padding-left: 18px;
+  position: relative;
+}
+
+.cert-focus li::before {
+  content: "▹";
+  color: var(--green-bright);
+  position: absolute;
+  left: 0;
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .certs-grid {
+    grid-template-columns: 1fr;
+  }
+}
