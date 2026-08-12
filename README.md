@@ -1,5 +1,7 @@
 # Simra Faisal — Portfolio
 
+<img src="photo.png" alt="Simra Faisal" width="140" align="right"/>
+
 An interactive, dark-themed personal portfolio for [simrafaisal.me](https://simrafaisal.me) — built by hand with plain HTML/CSS/JS plus a tiny Express server for the AI chat.
 
 ## Highlights
