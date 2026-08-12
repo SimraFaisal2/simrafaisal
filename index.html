@@ -12,6 +12,13 @@
 </head>
 <body>
 
+  <!-- Aurora background orbs (leonardo.ai-inspired) -->
+  <div class="aurora" aria-hidden="true">
+    <div class="aurora-orb aurora-orb-1"></div>
+    <div class="aurora-orb aurora-orb-2"></div>
+    <div class="aurora-orb aurora-orb-3"></div>
+  </div>
+
   <!-- Fixed top navigation -->
   <nav class="navbar" id="navbar">
     <div class="nav-container">
@@ -22,7 +29,8 @@
       <div class="nav-links" id="navLinks">
         <a href="#intro">Home</a>
         <a href="#about">About</a>
-        <a href="#experience">Experience</a>
+        <a href="#experience">Milestones</a>
+        <a href="#focus">Focus</a>
         <a href="#projects">Projects</a>
         <a href="#ai">AI</a>
         <a href="#contact">Contact</a>
@@ -45,7 +53,8 @@
   <aside class="sidebar-nav">
     <a href="#intro"><span class="nav-slash">/</span>home</a>
     <a href="#about"><span class="nav-slash">/</span>about</a>
-    <a href="#experience"><span class="nav-slash">/</span>experience</a>
+    <a href="#experience"><span class="nav-slash">/</span>milestones</a>
+    <a href="#focus"><span class="nav-slash">/</span>focus</a>
     <a href="#projects"><span class="nav-slash">/</span>projects</a>
     <a href="#ai"><span class="nav-slash">/</span>ai</a>
     <a href="#contact"><span class="nav-slash">/</span>contact</a>
@@ -53,41 +62,92 @@
 
   <!-- ============ HERO ============ -->
   <section id="intro">
-    <div class="intro-block">
-      <div class="intro-title">
-        hi, i'm <span class="intro-name" id="typedName">simra</span><span class="intro-cursor">|</span>
+    <div class="hero-grid">
+      <div class="hero-portrait" aria-label="Interactive particle portrait">
+        <div id="portraitContainer">
+          <div id="portraitLoading" class="portrait-status">initialising scan…</div>
+          <pre id="asciiFallback" class="ascii-card" aria-hidden="true" style="display:none">
+   .--.
+  /    \
+ | o  o |
+ |  \/  |
+  \ __ /
+   '--'   simra
+   _/\_
+  (    )</pre>
+        </div>
       </div>
-      <div class="intro-subtitle" id="typing">Applied CS &amp; AI @ Sapienza</div>
-      <div class="intro-desc">
-        I build AI systems, algorithms, and software that actually help people —
-        from assistive technology for dementia care to scholarship-matching agents.
-        Currently pursuing a Bachelor's in <b>Applied Computer Science &amp; AI</b> at
-        <a href="https://www.uniroma1.it/" target="_blank" rel="noopener noreferrer">Sapienza University of Rome</a>.
+      <div class="hero-text">
+        <div class="intro-title">
+          hi, i'm <span class="intro-name">simra</span>
+        </div>
+        <div class="intro-subtitle">Computer Science &amp; AI</div>
+        <div class="intro-desc">
+          Applied CS &amp; AI student at <a href="https://www.uniroma1.it/" target="_blank" rel="noopener noreferrer">Sapienza University of Rome</a>
+          — building AI systems, algorithms, and software that help people.
+        </div>
+        <div class="intro-actions">
+          <a href="#projects" class="intro-contact">View Projects</a>
+          <a href="#contact" class="intro-secondary">Contact Me</a>
+        </div>
+        <div class="intro-socials">
+          <a href="https://github.com/SimraFaisal2" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          <a href="https://linkedin.com/in/SimraFaisal" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+          <a href="mailto:simrafaisal1111@gmail.com">Email</a>
+        </div>
       </div>
-      <div class="intro-actions">
-        <a href="mailto:simrafaisal1111@gmail.com" class="intro-contact">Say hi!</a>
-        <a href="#projects" class="intro-secondary">View my work →</a>
-      </div>
-    </div>
-    <div class="intro-simulation">
-      <pre class="ascii-card" aria-hidden="true">
-┌────────────────────────────┐
-│  ~/simra — zsh            │
-│  ─────────────────────    │
-│  ▲ studying  cs & ai      │
-│  ▲ building  agents       │
-│  ▲ dreaming  in python    │
-│                           │
-│  $ whoami                 │
-│  > simra.faisal           │
-│  $ ls ./focus             │
-│  machine-learning/        │
-│  algorithms/              │
-│  assistive-ai/            │
-│  satellite-systems/       │
-└────────────────────────────┘</pre>
     </div>
   </section>
+
+  <!-- ============ AT A GLANCE (stats strip) ============ -->
+  <div class="at-a-glance">
+    <div class="glance-item">
+      <div class="glance-num">110/110</div>
+      <div class="glance-label">on track for cum laude at Sapienza</div>
+    </div>
+    <div class="glance-item">
+      <div class="glance-num">100%</div>
+      <div class="glance-label">merit scholarship · class valedictorian</div>
+    </div>
+    <div class="glance-item">
+      <div class="glance-num">5 A's</div>
+      <div class="glance-label">A-Levels · top 0.0001% in the country</div>
+    </div>
+    <div class="glance-item">
+      <div class="glance-num">500+</div>
+      <div class="glance-label">opportunities tracked in my radar app</div>
+    </div>
+  </div>
+
+  <!-- ============ TECH STATUS TICKER (original touch) ============ -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">python</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">pytorch</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">opencv</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">next.js</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">typescript</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">langgraph</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">sql</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">c++</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">three.js</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">flask</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">gemini api</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">crewai</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">python</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">pytorch</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">opencv</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">next.js</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">typescript</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">langgraph</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">sql</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">c++</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">three.js</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">flask</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">gemini api</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">crewai</span><span class="ticker-sep">✦</span>
+    </div>
+  </div>
 
   <!-- ============ ABOUT ============ -->
   <section id="about">
@@ -117,71 +177,102 @@
           is a team sport.
         </p>
       </div>
-      <div class="about-image">
-        <pre class="ascii-card ascii-card--portrait" aria-hidden="true">
-   .--.
-  /    \
- | o  o |
- |  \/  |
-  \ __ /
-   '--'   simra
-   _/\_
-  (    )
-   '--'   faisal</pre>
-        <div class="about-caption">me, probably optimizing something</div>
-      </div>
     </div>
   </section>
 
-  <!-- ============ EXPERIENCE ============ -->
+  <!-- ============ EXPERIENCE — MILESTONES TIMELINE ============
+       Layout inspired by yasinzamaan.com: a year-marked vertical timeline
+       with glowing dots tracing studies, research and work. -->
   <section id="experience">
-    <div class="section-header"><span class="section-title">/ experience</span></div>
-    <div class="experience-list">
+    <div class="section-header"><span class="section-title">/ milestones</span></div>
+    <div class="timeline">
 
-      <div class="experience-item">
-        <div class="experience-meta">
-          <div class="experience-role">BSc in Applied CS &amp; Artificial Intelligence</div>
-          <div class="experience-place">Sapienza University of Rome · Rome, Italy</div>
-        </div>
-        <div class="experience-desc">
-          <p>2025 – 2028</p>
-          <p>Tracking top marks, on track for honours. Focus on ML, algorithms, and AI systems.</p>
+      <div class="timeline-item">
+        <div class="timeline-year">2025 – 2028</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-role">BSc in Applied CS &amp; AI</div>
+          <div class="timeline-place">Sapienza University of Rome · Rome, Italy</div>
+          <p class="timeline-desc">Tracking top marks, on track for honours. Focus on ML, algorithms, and AI systems.</p>
         </div>
       </div>
 
-      <div class="experience-item">
-        <div class="experience-meta">
-          <div class="experience-role">Team Member</div>
-          <div class="experience-place">ARK Automation Lab · Karachi, Pakistan</div>
-        </div>
-        <div class="experience-desc">
-          <p>Dec 2022 – Aug 2023</p>
-          <p>Delivered team-based automation projects under tight deadlines; owned conflict management and team synchronization in a high-paced lab.</p>
-        </div>
-      </div>
-
-      <div class="experience-item">
-        <div class="experience-meta">
-          <div class="experience-role">A-Levels — 5A · Valedictorian</div>
-          <div class="experience-place">Alpha College · Karachi, Pakistan</div>
-        </div>
-        <div class="experience-desc">
-          <p>2022 – 2024</p>
-          <p>Top 0.0001% in country · 100% merit scholarship · Class valedictorian · Math associate teacher.</p>
+      <div class="timeline-item">
+        <div class="timeline-year">2026</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-role">Research Scholar — Biometrics Data Science Program</div>
+          <div class="timeline-place">Białystok, Poland · Fully funded</div>
+          <p class="timeline-desc">Selected for a fully funded program specializing in AI applications for biometrics — data pipelines, ML/DL models, and privacy analysis.</p>
         </div>
       </div>
 
-      <div class="experience-item">
-        <div class="experience-meta">
-          <div class="experience-role">Certifications</div>
-          <div class="experience-place">DeepLearning.AI · DataCamp · Google</div>
-        </div>
-        <div class="experience-desc">
-          <p>Ongoing</p>
-          <p>ML &amp; Deep Learning Specialization · Professional Python Data Associate · Google Data Analytics.</p>
+      <div class="timeline-item">
+        <div class="timeline-year">2022 – 2023</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-role">Team Member</div>
+          <div class="timeline-place">ARK Automation Lab · Karachi, Pakistan</div>
+          <p class="timeline-desc">Delivered team-based automation projects under tight deadlines; owned conflict management and team synchronization in a high-paced lab.</p>
         </div>
       </div>
 
+      <div class="timeline-item">
+        <div class="timeline-year">2022 – 2024</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-role">A-Levels — 5A · Valedictorian</div>
+          <div class="timeline-place">Alpha College · Karachi, Pakistan</div>
+          <p class="timeline-desc">Top 0.0001% in country · 100% merit scholarship · Class valedictorian · Math associate teacher.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">Ongoing</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-role">Certifications</div>
+          <div class="timeline-place">DeepLearning.AI · DataCamp · Google</div>
+          <p class="timeline-desc">ML &amp; Deep Learning Specialization · Professional Python Data Associate · Google Data Analytics.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ CURRENT FOCUS ============
+       Three-column block in the style of yasinzamaan.com's
+       "Current Focus" — a real-time snapshot of energy. -->
+  <section id="focus">
+    <div class="section-header"><span class="section-title">/ current focus</span></div>
+    <div class="focus-grid">
+      <div class="focus-card">
+        <h3 class="focus-title">what i'm <span class="accent">studying</span></h3>
+        <ul class="focus-list">
+          <li>machine learning &amp; deep learning theory</li>
+          <li>advanced algorithms &amp; dynamic programming</li>
+          <li>modern web development — react, next.js</li>
+          <li>satellite-systems fundamentals</li>
+        </ul>
+      </div>
+      <div class="focus-card">
+        <h3 class="focus-title">what i'm <span class="accent">building</span></h3>
+        <ul class="focus-list">
+          <li>scholarship-matching agents with langgraph &amp; crewai</li>
+          <li>opportunity radar for students — next.js + prisma + gemini</li>
+          <li>assistive tech for dementia care — flask + opencv</li>
+          <li>this portfolio, always iterating</li>
+        </ul>
+      </div>
+      <div class="focus-card">
+        <h3 class="focus-title">what i'm <span class="accent">learning</span></h3>
+        <ul class="focus-list">
+          <li>biometric AI pipelines — research program in poland</li>
+          <li>agent orchestration &amp; prompt engineering</li>
+          <li>data analytics — tableau, looker, sql</li>
+          <li>kanban &amp; AI-assisted workflow design</li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -198,11 +289,25 @@
           <svg class="folder-icon" viewBox="0 0 24 24" width="36" height="36" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
           <span class="card-links">
             <a href="https://github.com/SimraFaisal2/opportunity-radar" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
+            <a href="https://opportunity-radar.vercel.app" target="_blank" rel="noopener noreferrer" aria-label="Live site" class="card-external"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
           </span>
         </div>
         <h3 class="card-title">Opportunity Radar</h3>
-        <p class="card-desc">Full-stack tracker aggregating 500+ internships, research programs &amp; scholarships with AI-powered CV matching and a kanban pipeline.</p>
+        <p class="card-desc">Full-stack tracker aggregating 500+ internships, research programs &amp; scholarships with AI-powered CV matching, a kanban pipeline, and deadline analytics.</p>
         <p class="card-tech">Next.js · Prisma · Tailwind · Gemini API</p>
+      </div>
+
+      <div class="project-card">
+        <div class="card-header">
+          <svg class="folder-icon" viewBox="0 0 24 24" width="36" height="36" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+          <span class="card-links">
+            <a href="https://github.com/SimraFaisal2/simrafaisal" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
+            <a href="https://simrafaisal.vercel.app" target="_blank" rel="noopener noreferrer" aria-label="Live site" class="card-external"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+          </span>
+        </div>
+        <h3 class="card-title">simrafaisal — this website</h3>
+        <p class="card-desc">The portfolio you're looking at right now — an interactive 3D particle portrait, a terminal-style AI assistant, and a Gazi-inspired dev-portfolio design, all built by hand.</p>
+        <p class="card-tech">JavaScript · HTML/CSS · Three.js</p>
       </div>
 
       <div class="project-card">
@@ -214,7 +319,7 @@
         </div>
         <h3 class="card-title">AI-Powered Resume Analyzer</h3>
         <p class="card-desc">End-to-end recruitment web app: create job listings, batch-upload resumes, and get instant AI alignment scores for every candidate.</p>
-        <p class="card-tech">React · React Router · Puter.js</p>
+        <p class="card-tech">JavaScript · HTML/CSS</p>
       </div>
 
       <div class="project-card">
@@ -225,44 +330,8 @@
           </span>
         </div>
         <h3 class="card-title">MemoryMate — Dementia Care</h3>
-        <p class="card-desc">Assistive communication &amp; memory system: hand-gesture typing, object memory, reminders, and a caregiver dashboard for dementia support.</p>
-        <p class="card-tech">Python · OpenCV · MediaPipe · Flask</p>
-      </div>
-
-      <div class="project-card">
-        <div class="card-header">
-          <svg class="folder-icon" viewBox="0 0 24 24" width="36" height="36" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
-          <span class="card-links">
-            <a href="https://github.com/SimraFaisal2" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
-          </span>
-        </div>
-        <h3 class="card-title">Scholarship Matcher Agent</h3>
-        <p class="card-desc">Multi-agent "Research &amp; Match" system that autonomously discovers fully-funded scholarships and scores fit against a CV.</p>
-        <p class="card-tech">LangGraph · Gemini · Tavily · Supabase</p>
-      </div>
-
-      <div class="project-card">
-        <div class="card-header">
-          <svg class="folder-icon" viewBox="0 0 24 24" width="36" height="36" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
-          <span class="card-links">
-            <a href="https://github.com/SimraFaisal2" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
-          </span>
-        </div>
-        <h3 class="card-title">Algorithm Visualizer</h3>
-        <p class="card-desc">Interactive visualization tool that brings classic algorithms to life — built because I believe you understand code by watching it run.</p>
-        <p class="card-tech">JavaScript · HTML/CSS</p>
-      </div>
-
-      <div class="project-card">
-        <div class="card-header">
-          <svg class="folder-icon" viewBox="0 0 24 24" width="36" height="36" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
-          <span class="card-links">
-            <a href="https://github.com/SimraFaisal2" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
-          </span>
-        </div>
-        <h3 class="card-title">Satellite Dashboard</h3>
-        <p class="card-desc">Satellite data visualization platform — my first step toward the space-tech systems I want to build at scale.</p>
-        <p class="card-tech">JavaScript · Data Viz</p>
+        <p class="card-desc">Assistive communication &amp; memory system for people with dementia: hand-gesture typing, object memory, voice reminders, guided tasks, and a caregiver console.</p>
+        <p class="card-tech">Python · Flask · OpenCV</p>
       </div>
     </div>
   </section>
@@ -290,6 +359,7 @@
       <h2 class="contact-title">let's build something <span class="accent">impactful</span> together.</h2>
       <p class="contact-text">I'm always open to collaborations, internships, and interesting problems. My inbox is always open.</p>
       <a href="mailto:simrafaisal1111@gmail.com" class="intro-contact big">Say hello</a>
+      <a href="mailto:simrafaisal1111@gmail.com" class="contact-email">simrafaisal1111@gmail.com</a>
       <div class="contact-socials">
         <a href="https://github.com/SimraFaisal2" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a href="https://linkedin.com/in/SimraFaisal" target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -307,6 +377,14 @@
     <p>Designed &amp; built by Simra Faisal © 2026. Inspired by the dev-portfolio aesthetic.</p>
   </footer>
 
+  <!-- Floating game-mode toggle (page-overlay game, Gazi-style) -->
+  <button id="gameModeToggle" class="game-toggle" aria-pressed="false" aria-label="Toggle game mode">
+    <span class="game-toggle-dot"></span>game mode
+  </button>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.0/build/three.min.js"></script>
+  <script src="particles.js"></script>
+  <script src="game.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

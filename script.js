@@ -66,7 +66,7 @@ if (navToggle && navLinks) {
 // ============================================================
 // 3. SCROLLSPY — highlight the section you're viewing
 // ============================================================
-const sectionIds = ["intro", "about", "experience", "projects", "ai", "contact"];
+const sectionIds = ["intro", "about", "experience", "focus", "projects", "ai", "contact"];
 
 function setActiveLink(id) {
   document.querySelectorAll(".nav-links > a, .sidebar-nav a").forEach((a) => {
@@ -89,7 +89,7 @@ function onScroll() {
 // ============================================================
 function setupFadeIns() {
   const targets = document.querySelectorAll(
-    "#about, #experience, #projects, #ai, #contact, .project-card, .experience-item"
+    "#about, #experience, #focus, #projects, #ai, #contact, .project-card, .experience-item, .timeline-item, .focus-card"
   );
   targets.forEach((t) => t.classList.add("fade-in"));
 
@@ -197,11 +197,26 @@ if (userInputField) {
 }
 
 // ============================================================
+// 6. MOUSE-TRACKING SPOTLIGHT GLOW (Leonardo.ai-style)
+//    Follows the cursor across cards via --mx / --my CSS vars
+// ============================================================
+function setupSpotlight() {
+  const cards = document.querySelectorAll(".project-card, .focus-card, .timeline-item");
+  cards.forEach((card) => {
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--mx", ((e.clientX - rect.left) / rect.width) * 100 + "%");
+      card.style.setProperty("--my", ((e.clientY - rect.top) / rect.height) * 100 + "%");
+    });
+  });
+}
+
+// ============================================================
 // INIT
 // ============================================================
 document.addEventListener("DOMContentLoaded", () => {
-  typeEffect();
   setupFadeIns();
+  setupSpotlight();
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 });

@@ -1,7 +1,7 @@
 /* ============================================================
    Simra Faisal — portfolio
    Palette & layout inspired by the dev-portfolio aesthetic
-   (navy #0a192f / green #64ffda)
+   (navy #0a192f / violet #a78bfa)
    ============================================================ */
 
 :root {
@@ -14,8 +14,8 @@
   --light-slate: #a8b2d1;
   --lightest-slate: #ccd6f6;
   --white: #e6f1ff;
-  --green-bright: #64ffda;
-  --green-tint: rgba(100, 255, 218, 0.1);
+  --green-bright: #a78bfa;
+  --green-tint: rgba(167, 139, 250, 0.1);
   --font-body: "NTR", "Poppins", sans-serif;
   --font-mono: "JetBrains Mono", "Courier New", monospace;
 }
@@ -422,26 +422,6 @@ section {
   position: absolute;
   left: 0;
 }
-
-.about-image {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  flex-shrink: 0;
-}
-
-.ascii-card--portrait {
-  font-size: 13px;
-  padding: 20px 22px;
-}
-
-.about-caption {
-  font-size: 15px;
-  color: var(--light-slate);
-  font-style: italic;
-}
-
 /* ============================================================
    EXPERIENCE
    ============================================================ */
@@ -961,5 +941,695 @@ footer p {
   .chat-input-area button {
     padding: 10px 14px;
     font-size: 14px;
+  }
+}
+
+/* ============================================================
+   HERO — 3D particle portrait (left) + text (right)
+   ============================================================ */
+.hero-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5vw;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.hero-portrait {
+  flex: 0 0 46%;
+  min-width: 0;
+}
+
+#portraitContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: radial-gradient(ellipse at center, rgba(23, 52, 84, 0.35) 0%, transparent 72%);
+}
+
+#portraitContainer canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.portrait-status {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--slate);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+}
+
+#asciiFallback {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
+.hero-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.hero-text .intro-subtitle {
+  color: var(--green-bright);
+  font-weight: 400;
+}
+
+.intro-socials {
+  display: flex;
+  gap: 24px;
+  padding-top: 28px;
+  font-size: 16px;
+  color: var(--slate);
+}
+
+.intro-socials a {
+  color: var(--slate);
+  border-bottom: 1px dotted transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.intro-socials a:hover {
+  color: var(--green-bright);
+  border-bottom-color: var(--green-bright);
+}
+
+/* ============================================================
+   HERO — mobile (stack portrait above text)
+   ============================================================ */
+@media (max-width: 900px) {
+  .hero-grid {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .hero-portrait {
+    flex: 0 0 auto;
+    width: min(70vw, 340px);
+  }
+
+  .hero-text {
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-text .intro-actions {
+    justify-content: center;
+  }
+
+  .intro-socials {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .intro-title {
+    font-size: 52px;
+  }
+
+  .intro-subtitle {
+    font-size: 26px;
+  }
+
+  .intro-desc {
+    font-size: 18px;
+  }
+
+  .hero-portrait {
+    width: min(78vw, 300px);
+  }
+}
+
+/* ============================================================
+   MILESTONES TIMELINE (yasinzamaan-style)
+   ============================================================ */
+.timeline {
+  position: relative;
+  padding-left: 0;
+}
+
+.timeline-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 130px 24px 1fr;
+  gap: 18px;
+  padding: 22px 0;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: 137px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--lightest-navy);
+}
+
+.timeline-item:first-child::before {
+  top: 34px;
+}
+
+.timeline-item:last-child::before {
+  bottom: auto;
+  height: 34px;
+}
+
+.timeline-year {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--slate);
+  padding-top: 6px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--navy);
+  border: 2px solid var(--green-bright);
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.45);
+  margin-top: 8px;
+  z-index: 1;
+}
+
+.timeline-card {
+  background: var(--light-navy);
+  border: 1px solid var(--lightest-navy);
+  border-radius: 8px;
+  padding: 18px 22px;
+  transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.timeline-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--green-bright);
+}
+
+.timeline-role {
+  color: var(--lightest-slate);
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.timeline-place {
+  color: var(--green-bright);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.timeline-desc {
+  color: var(--slate);
+  font-size: 15px;
+  margin-top: 10px;
+  line-height: 1.55;
+}
+
+/* ============================================================
+   CURRENT FOCUS (yasinzamaan-style three columns)
+   ============================================================ */
+.focus-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.focus-card {
+  background: var(--light-navy);
+  border: 1px solid var(--lightest-navy);
+  border-radius: 8px;
+  padding: 26px 24px;
+  transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.focus-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--green-bright);
+}
+
+.focus-title {
+  color: var(--lightest-slate);
+  font-size: 21px;
+  margin-bottom: 10px;
+}
+
+.focus-title .accent {
+  color: var(--green-bright);
+}
+
+.focus-desc {
+  color: var(--slate);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .timeline-item {
+    grid-template-columns: 88px 24px 1fr;
+    gap: 12px;
+  }
+
+  .timeline-item::before {
+    left: 95px;
+  }
+
+  .timeline-year {
+    font-size: 12px;
+  }
+
+  .focus-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   PROJECT CARDS — subtle design refresh
+   ============================================================ */
+.card-external {
+  color: var(--light-slate);
+  display: inline-flex;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.card-links a.card-external:hover {
+  color: var(--green-bright);
+  transform: translate(2px, -2px);
+}
+
+.project-card {
+  border: 1px solid var(--lightest-navy);
+}
+
+.project-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--green-bright), transparent);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  border-radius: 16px 16px 0 0;
+}
+
+.project-card:hover::before {
+  opacity: 1;
+}
+
+.projects-grid {
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+}
+
+@media (min-width: 901px) and (max-width: 1080px) {
+  .projects-grid {
+    grid-template-columns: repeat(3, minmax(260px, 1fr));
+  }
+}
+
+/* ============================================================
+   Leonardo.ai-inspired effects (kept in the navy/mint palette)
+   ============================================================ */
+
+/* --- Animated aurora orbs drifting behind the content --- */
+.aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aurora-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.32;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+.aurora-orb-1 {
+  width: 56vmax;
+  height: 56vmax;
+  left: -18vmax;
+  top: -20vmax;
+  background: radial-gradient(circle at 35% 35%, rgba(167, 139, 250, 0.40), rgba(34, 211, 238, 0.16) 48%, transparent 72%);
+  animation: aurora-drift-1 30s ease-in-out infinite alternate;
+}
+
+.aurora-orb-2 {
+  width: 48vmax;
+  height: 48vmax;
+  right: -20vmax;
+  top: 22vh;
+  background: radial-gradient(circle at 60% 40%, rgba(34, 211, 238, 0.30), rgba(167, 139, 250, 0.10) 52%, transparent 74%);
+  animation: aurora-drift-2 38s ease-in-out infinite alternate;
+}
+
+.aurora-orb-3 {
+  width: 42vmax;
+  height: 42vmax;
+  left: 22vw;
+  bottom: -24vmax;
+  background: radial-gradient(circle at 50% 50%, rgba(71, 118, 230, 0.28), rgba(167, 139, 250, 0.08) 55%, transparent 76%);
+  animation: aurora-drift-3 44s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-drift-1 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(9vmax, 6vmax) scale(1.18); }
+}
+@keyframes aurora-drift-2 {
+  from { transform: translate(0, 0) scale(1.1); }
+  to   { transform: translate(-7vmax, -5vmax) scale(0.92); }
+}
+@keyframes aurora-drift-3 {
+  from { transform: translate(0, 0) scale(0.95); }
+  to   { transform: translate(-6vmax, -4vmax) scale(1.15); }
+}
+
+/* --- Shimmering animated gradient on the hero name --- */
+.intro-name {
+  background: linear-gradient(115deg, var(--green-bright) 0%, #22d3ee 28%, var(--white) 50%, #22d3ee 72%, var(--green-bright) 100%);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: name-shimmer 7s ease-in-out infinite;
+}
+
+@keyframes name-shimmer {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+/* --- Mouse-tracking spotlight glow on cards (Leonardo-style) --- */
+.project-card,
+.focus-card,
+.timeline-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before,
+.focus-card::before,
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(560px circle at var(--mx, 50%) var(--my, 50%), rgba(167, 139, 250, 0.10), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.project-card:hover::before,
+.focus-card:hover::before,
+.timeline-item:hover::before {
+  opacity: 1;
+}
+
+.project-card:hover {
+  box-shadow: 0 14px 40px -12px rgba(167, 139, 250, 0.18);
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .aurora-orb,
+  .intro-name {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   AT A GLANCE — stats strip (borrowed structure, own design)
+   ============================================================ */
+.at-a-glance {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  max-width: 1000px;
+  margin: -30px auto 0;
+  padding: 0 24px;
+  background: var(--lightest-navy);
+  border: 1px solid var(--lightest-navy);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+}
+
+.glance-item {
+  background: var(--light-navy);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.glance-num {
+  font-family: var(--font-mono);
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--green-bright);
+}
+
+.glance-label {
+  font-size: 14px;
+  color: var(--light-slate);
+  line-height: 1.45;
+}
+
+@media (max-width: 768px) {
+  .at-a-glance {
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: -14px;
+  }
+}
+
+/* ============================================================
+   TECH STATUS TICKER — original treatment (not from reference)
+   ============================================================ */
+.ticker {
+  overflow: hidden;
+  max-width: 1000px;
+  margin: 26px auto 0;
+  padding: 12px 0;
+  border-top: 1px solid var(--lightest-navy);
+  border-bottom: 1px solid var(--lightest-navy);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.ticker-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  width: max-content;
+  animation: ticker-scroll 32s linear infinite;
+}
+
+.ticker-item {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--slate);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0 18px;
+  transition: color 0.2s ease;
+}
+
+.ticker-sep {
+  color: var(--green-bright);
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* ============================================================
+   CURRENT FOCUS — bullet lists
+   ============================================================ */
+.focus-list {
+  list-style: none;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.focus-list li {
+  color: var(--slate);
+  font-size: 15px;
+  line-height: 1.5;
+  padding-left: 18px;
+  position: relative;
+}
+
+.focus-list li::before {
+  content: "▹";
+  color: var(--green-bright);
+  position: absolute;
+  left: 0;
+  font-size: 13px;
+}
+
+/* ============================================================
+   CONTACT — visible email link
+   ============================================================ */
+.contact-email {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--slate);
+  border-bottom: 1px dotted var(--green-bright);
+  padding-bottom: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.contact-email:hover {
+  color: var(--green-bright);
+  border-bottom-style: solid;
+}
+
+/* ============================================================
+   GAME MODE — floating toggle + page overlay (Gazi-style)
+   ============================================================ */
+.game-toggle {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 1200;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--green-bright);
+  background: rgba(10, 25, 47, 0.82);
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  border-radius: 999px;
+  padding: 10px 18px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px -8px rgba(167, 139, 250, 0.35);
+  transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.game-toggle:hover {
+  transform: translateY(-2px);
+  border-color: var(--green-bright);
+  box-shadow: 0 10px 30px -8px rgba(167, 139, 250, 0.5);
+}
+
+.game-toggle.on {
+  color: var(--cyan, #22d3ee);
+  border-color: rgba(34, 211, 238, 0.5);
+}
+
+.game-toggle-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green-bright);
+  box-shadow: 0 0 8px rgba(167, 139, 250, 0.9);
+  animation: gm-pulse 2s ease-in-out infinite;
+}
+
+.game-toggle.on .game-toggle-dot {
+  background: #22d3ee;
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.9);
+}
+
+@keyframes gm-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.75); }
+}
+
+/* Full-viewport transparent game canvas (over the live page) */
+#gameModeCanvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  pointer-events: none;
+  background: transparent;
+}
+
+/* Score HUD pill while playing */
+.game-mode-hud {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1150;
+  display: none;
+  align-items: center;
+  gap: 22px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--light-slate);
+  background: rgba(10, 25, 47, 0.82);
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  border-radius: 999px;
+  padding: 8px 20px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+
+.game-mode-hud b {
+  color: var(--green-bright);
+  font-weight: 600;
+}
+
+.game-mode-hud .gm-hint {
+  color: var(--slate);
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .game-mode-hud {
+    gap: 14px;
+    font-size: 12px;
+    padding: 7px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-toggle-dot {
+    animation: none;
   }
 }
