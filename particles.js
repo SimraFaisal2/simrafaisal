@@ -52,8 +52,8 @@ const PORTRAIT_CONFIG = {
   bgTolerance: 22,
   edgeFade: 0.85,
   rotateAmount: 0.4,
-  repelRadius: 1.6,
-  repelStrength: 0.55,
+  repelRadius: 0.5,
+  repelStrength: 0.2,
   colorNear: new THREE.Color("#dffaff"),
   colorFar: new THREE.Color("#0d3b66")
 };
@@ -662,8 +662,16 @@ class ParticlePortrait {
     this.group.rotation.y += Math.sin(t * 0.12) * 0.008;
 
     // --- mouse displacement for the shader --------------------------------
-    this._unprojectMouseLocal();
-    this.uMouse.value.copy(this.mouseWorldLocal);
+    // Only push particles when the cursor is genuinely over the portrait.
+    // Otherwise park the repel point far outside the cloud (dist >> radius
+    // → smoothstep = 0), so the face stays untouched on load instead of
+    // showing a void in the middle before the user even moves the mouse.
+    if (this.mouse.inside) {
+      this._unprojectMouseLocal();
+      this.uMouse.value.copy(this.mouseWorldLocal);
+    } else {
+      this.uMouse.value.set(1e5, 1e5, 0);
+    }
 
     // --- constant CSS-pixel dot size across every screen ---------------------
     // gl_PointSize = aSize * uPointScale / -mv.z  (device pixels). The group's
