@@ -52,8 +52,8 @@ const PORTRAIT_CONFIG = {
   bgTolerance: 22,
   edgeFade: 0.85,
   rotateAmount: 0.4,
-  repelRadius: 0.5,
-  repelStrength: 0.2,
+  repelRadius: 1.6,
+  repelStrength: 0.55,
   colorNear: new THREE.Color("#dffaff"),
   colorFar: new THREE.Color("#0d3b66")
 };
