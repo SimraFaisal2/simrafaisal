@@ -263,7 +263,6 @@ a {
 
 .intro-desc a {
   font-weight: bold;
-  border-bottom: 1px dotted var(--green-bright);
 }
 
 .intro-desc a:hover {
