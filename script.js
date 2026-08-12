@@ -66,7 +66,7 @@ if (navToggle && navLinks) {
 // ============================================================
 // 3. SCROLLSPY — highlight the section you're viewing
 // ============================================================
-const sectionIds = ["intro", "about", "experience", "certs", "focus", "projects", "ai", "contact"];
+const sectionIds = ["intro", "about", "projects", "experience", "certs", "focus", "ai", "contact"];
 
 function setActiveLink(id) {
   document.querySelectorAll(".nav-links > a, .sidebar-nav a").forEach((a) => {
