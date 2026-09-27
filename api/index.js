@@ -79,8 +79,6 @@ ACADEMIC PROFILE:
 * Alpha College (June 2022 – July 2024 | Karachi, Pakistan): Alevels - 5A (Mathematics, Economics, Chemistry, Physics, Computer Science). Placed in top 0.0001% in country, 100% merit scholarship, Class Valedictorian, Math Associate Teacher.
 
 WORK EXPERIENCE:
-* ARK Automation Lab (Dec 2022 – Aug 2023 | Karachi, Pakistan) | Team Member: Collaborated on a series of team-based automation projects to meet rigorous technical deadlines. Handled conflict management and team synchronization within a high-paced laboratory setting.
-
 PROFESSIONAL CERTIFICATIONS:
 * Machine Learning & Deep Learning Specialization – DeepLearning.AI (Andrew Ng): Neural Network Architectures, Hyperparameter Tuning, CNNs, RNNs, Model Optimization.
 * Professional Python Data Associate – DataCamp: Data Manipulation (Pandas, NumPy), Statistical Analysis, Automated Data Workflows.

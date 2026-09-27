@@ -60,8 +60,6 @@ WORK EXPERIENCE:
 * FlyRank AI (Aug 2026 – Present | Rome, Italy) | Front-End Engineer Intern: Developed and optimized 10+ responsive web interfaces, translating product requirements and UI designs into reusable, user-focused components. Collaborated with engineers and designers to implement 20+ features and deliver polished, production-ready web solutions.
 * Sapienza University of Rome (Aug 2026 – Present | Rome, Italy) | Research Assistant: Conducting research under Professor Danilo Avola on Wi-Fi-based human pose estimation and skeleton reconstruction, investigating wireless sensing for human movement analysis and its privacy-preserving applications.
 * Biometrics Data Science Summer Program (Jul 2026 – Nov 2026 | Bialystok, Poland) | Research Scholar: Selected for a fully funded program applying machine learning and deep learning to 100+ biometric samples, evaluating 10+ model configurations to optimize biometric matching with quantitative error metrics.
-* ARK Automation Lab (Dec 2022 – Aug 2023 | Karachi, Pakistan) | Team Member: Collaborated on a series of team-based automation projects to meet rigorous technical deadlines. Handled conflict management and team synchronization within a high-paced laboratory setting.
-
 PROFESSIONAL CERTIFICATIONS:
 * Machine Learning & Deep Learning Specialization – DeepLearning.AI (Andrew Ng): Neural Network Architectures, Hyperparameter Tuning, CNNs, RNNs, Model Optimization.
 * Professional Python Data Associate – DataCamp: Data Manipulation (Pandas, NumPy), Statistical Analysis, Automated Data Workflows.
