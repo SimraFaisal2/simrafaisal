@@ -1617,6 +1617,60 @@ footer p {
 }
 
 /* ============================================================
+   TECHNICAL SKILLS — resume skills grid
+   ============================================================ */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.skill-card {
+  background: var(--light-navy);
+  border: 1px solid var(--lightest-navy);
+  border-radius: 10px;
+  padding: 22px 24px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.skill-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--green-bright);
+}
+
+.skill-title {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--lightest-slate);
+  margin-bottom: 10px;
+}
+
+.skill-title::before {
+  content: "▹ ";
+  color: var(--green-bright);
+}
+
+.skill-items {
+  color: var(--slate);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
    CERTIFICATIONS — separate section with credential cards
    ============================================================ */
 .certs-grid {
