@@ -6,7 +6,7 @@ const textArray = [
   "AI engineer in training",
   "Front-end engineer intern @ FlyRank AI",
   "Wireless-sensing research assistant",
-  "Builder of assistive tech"
+  "Builder of multi-agent AI systems"
 ];
 
 let typingIndex = 0;

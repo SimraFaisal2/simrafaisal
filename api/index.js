@@ -70,7 +70,7 @@ When asked about education, current status, or location, you must explicitly sta
 
 IDENTITY & CONTACT MATRIX:
 * Name: Simra Faisal
-* Domain Portfolio: simrafaisal.com
+* Domain Portfolio: simrafaisal.me
 * Email Address: simrafaisal1111@gmail.com
 * Professional Profiles: linkedin.com/in/SimraFaisal | github.com/SimraFaisal2
 
@@ -88,7 +88,6 @@ PROFESSIONAL CERTIFICATIONS:
 
 PROJECTS DEVELOPMENT HISTORY:
 * REPRO - AI Software Failure & Repair Orchestrator (2026) | Tech Stack: Python, FastAPI, React, Docker: Architected an autonomous AI debugging agent that reproduces failing tests in an isolated sandbox, traces real runtime execution, diagnoses root cause from evidence, generates and verifies minimal patches, and presents the full investigation in a React dashboard (Observe → Reproduce → Investigate → Diagnose → Patch → Verify). Engineered an LLM abstraction with a deterministic offline fallback so the complete demo runs with zero API keys, and shipped the product as a single self-contained Docker service with a one-click Render deployment.
-* MemoryMate - Assistive Communication & Memory System for Dementia Care (2026) | Tech Stack: Python, OpenCV, MediaPipe, InsightFace, Flask: Built a real-time computer vision assistive system for people with dementia — hand-gesture typing (GRID), air-writing OCR (AIR), sign language (ASL), and biometric face identification (FACE) — unified with a caregiver dashboard. Replaced fragile LBPH recognition with InsightFace embeddings (0.94–0.98 cosine similarity) and added voice-name enrollment; emergency gestures, recalls, and safety events surface live in the caregiver console. Fully offline — nothing leaves the device.
 
 CORE TECHNICAL SKILLS:
 * Programming Languages: Python, R, C++, SQL, JavaScript, TypeScript
